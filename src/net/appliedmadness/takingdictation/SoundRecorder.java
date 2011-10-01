@@ -24,7 +24,9 @@ public class SoundRecorder
 	private static final int CHANNELS = AudioFormat.CHANNEL_IN_MONO;
 	private static final int FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 	private static final int SAMPLE_RATE = 44100;
-	
+
+	private static final String OUTPUT_EXTENSION = "wav";
+
 	private static final int SUCCESS = 0;
 	private static final int ERROR = -1;
 	
@@ -46,16 +48,20 @@ public class SoundRecorder
 	private Thread recordingThread;
 	private Runnable recordingJob;
 	
-	public SoundRecorder()
+	private TakingDictationActivity context;
+	
+	public SoundRecorder(TakingDictationActivity myContext)
 	{
-		
+		context = myContext;
 	}
-	public void init() throws IOException
+	private void init() throws IOException
 	{
 		//Check if drive storage is mounted.
-		if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED)
+		
+		String storageState = Environment.getExternalStorageState();
+		
+		if (storageState.equals(Environment.MEDIA_MOUNTED))
 		{
-
 			File rootDir = Environment.getExternalStorageDirectory();
 			storageDir = new File (rootDir.getAbsolutePath() + STORAGE_DIR_NAME);
 			
@@ -67,9 +73,9 @@ public class SoundRecorder
 			}
 
 			Date now = new Date();
-			DateFormat fileDateFormat = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss.wav");
+			DateFormat fileDateFormat = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss");
 			
-			outFile = new File (storageDir.getAbsolutePath() + System.getProperty("file.separator") + fileDateFormat.format(now) + ".mp3");
+			outFile = new File (storageDir.getAbsolutePath() + System.getProperty("file.separator") + fileDateFormat.format(now) + OUTPUT_EXTENSION);
 			tmpFile = File.createTempFile("TakingDictation", "wav");
 			
 			if (storageDirExists && outFile.canWrite() && tmpFile.canWrite())
@@ -112,9 +118,17 @@ public class SoundRecorder
 			errorState = ERROR;
 			errorMessage = e.getMessage();
 		}
-		recordingJob = new RecordingJob();
-		recordingThread = new Thread(recordingJob);
-		recordingThread.start();
+		if (errorState == SUCCESS)
+		{
+			context.toastError("Recording to file: " + outFile.getAbsolutePath());
+			recordingJob = new RecordingJob();
+			recordingThread = new Thread(recordingJob);
+			recordingThread.start();
+		}
+		else
+		{
+			context.toastError(errorMessage);
+		}
 	}
 	public void stop()
 	{
@@ -167,6 +181,7 @@ public class SoundRecorder
 			{
 				byte tmpBuffer[] = new byte[bufferSize];
 				int bytesRead;
+				String moo = tmpFile.getAbsolutePath();
 				FileOutputStream fos = new FileOutputStream(tmpFile);
 				
 				mic.startRecording();
