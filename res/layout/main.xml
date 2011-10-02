@@ -4,9 +4,26 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
+	<TextView  
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/hello"
+	    />
+	<Button
+		android:id="@+id/record_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/record_button"
+		/>
+	<Button
+		android:id="@+id/stop_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/stop_button"
+		/>
+	<net.appliedmadness.takingdictation.FileViewer
+		android:id="@+id/file_viewer"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		/>
 </LinearLayout>

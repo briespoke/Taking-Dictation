@@ -2,4 +2,7 @@
 <resources>
     <string name="hello">Hello World, TakingDictationActivity!</string>
     <string name="app_name">Taking Dictation</string>
+    
+    <string name="record_button">Record</string>
+    <string name="stop_button">Stop</string>
 </resources>
