@@ -17,6 +17,11 @@ import android.media.AudioTrack;
 import android.media.MediaRecorder.AudioSource;
 import android.os.Environment;
 
+/**
+ * Records sounds by reading PCM data and constructing a valid WAV file.
+ * @author wavenger
+ *
+ */
 public class SoundRecorder 
 {
 	private static final int COPY_BUFFER_SIZE = 1024;
@@ -67,6 +72,10 @@ public class SoundRecorder
 		}
 		return instance;
 	}
+	/**
+	 * Initializes the sound recorder to accept input for a new file.
+	 * @throws IOException
+	 */
 	private void init() throws IOException
 	{
 		//Check if drive storage is mounted.
@@ -284,7 +293,6 @@ public class SoundRecorder
 			{
 				byte tmpBuffer[] = new byte[bufferSize];
 				int bytesRead;
-				String moo = tmpFile.getAbsolutePath();
 				FileOutputStream fos = new FileOutputStream(tmpFile);
 				
 				mic.startRecording();
@@ -307,11 +315,9 @@ public class SoundRecorder
 		}
 		
 	}
-
-
-// ===========================
-// CONVERT BYTES TO JAVA TYPES
-// ===========================
+	/**
+	 * Bytes to java types.
+	 */
 
 	// these two routines convert a byte array to a unsigned short
 	public static int byteArrayToInt(byte[] b)
@@ -349,9 +355,9 @@ public class SoundRecorder
 	}
 
 
-// ===========================
-// CONVERT JAVA TYPES TO BYTES
-// ===========================
+	/**
+	 * Java types to bytes.
+	 */
 	// returns a byte array of length 4
 	private static byte[] intToByteArray(int i)
 	{
