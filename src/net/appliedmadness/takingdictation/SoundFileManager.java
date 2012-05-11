@@ -6,16 +6,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.media.AudioFormat;
-import android.media.AudioRecord;
-import android.media.MediaRecorder;
-import android.media.MediaRecorder.AudioSource;
 import android.os.Environment;
 
+/**
+ * Manages the sound files created by this application, principally getting new, unique filenames.
+ * @author wavenger
+ *
+ */
 public class SoundFileManager {
 	
 	private static final String STORAGE_DIR_NAME = "Dictation";
-	private MediaRecorder recorder; 
 	private File storageDir;
 	private File outFile;
 	
@@ -66,9 +66,4 @@ public class SoundFileManager {
 		}
 	}
 	
-	public void record() {
-		recorder = new MediaRecorder();
-		recorder.setAudioSource(AudioSource.MIC);
-		recorder.start();
-	}
 }

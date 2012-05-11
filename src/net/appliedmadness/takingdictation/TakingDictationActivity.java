@@ -1,9 +1,6 @@
 package net.appliedmadness.takingdictation;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,9 +10,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * The main and only activity.
+ * 
+ * @author wavenger
+ *
+ */
 public class TakingDictationActivity extends Activity 
 {
-	//SoundFileManager soundFileManager;
 	SoundRecorder soundRecorder;
 	
 	private Button recordButton;
@@ -70,18 +72,29 @@ public class TakingDictationActivity extends Activity
         TakingDictationActivity.refresh();
     }
     
+    
+    /**
+     * Called to ensure that button states properly reflect the internal state of the activity.
+     */
     private void setButtonStates() {
 		recordButton.setEnabled(isReady && !isRecording);
 		stopButton.setEnabled(isReady && isRecording);
 	}
 
+	/**
+	 * This allows us to preserve the application's state when it is closed or the view is reoriented.
+	 */
 	@Override
-    public void onSaveInstanceState(Bundle savedInstanceState)
+	public void onSaveInstanceState(Bundle savedInstanceState)
     {
     	savedInstanceState.putBoolean(IS_READY, isReady);
     	savedInstanceState.putBoolean(IS_RECORDING, isRecording);
     }
-    
+    /**
+     * Start recording!
+     * @author wavenger
+     *
+     */
     private class RecordButtonClickListener implements OnClickListener
     {
 
@@ -91,6 +104,12 @@ public class TakingDictationActivity extends Activity
 		}
     	
     }
+    
+    /**
+     * Stop recording!
+     * @author wavenger
+     *
+     */
     private class StopButtonClickListener implements OnClickListener
     {
 
@@ -100,6 +119,10 @@ public class TakingDictationActivity extends Activity
 		}
     	
     }
+    /**
+     * Presents the user with an error (i.e., not an internal exception or fault - defined behavior).
+     * @param error The error text.
+     */
     public static void toastError(String error)
     {
     	if (instance != null)
@@ -107,6 +130,11 @@ public class TakingDictationActivity extends Activity
     		Toast.makeText(instance, error, Toast.LENGTH_LONG).show();
     	}
     }
+    
+    /**
+     * Indicate that the application is set up and ready to accept input.
+     * @param readyFlag Whether the app is ready or not.
+     */
     public static void setReady(boolean readyFlag)
     {
     	TakingDictationActivity instance = TakingDictationActivity.getInstance();
@@ -115,6 +143,10 @@ public class TakingDictationActivity extends Activity
     	
     	instance.setButtonStates();
     }
+    /**
+     * Indicates that the app is recording.
+     * @param recordingFlag Whether the app is recording or not.
+     */
     public static void setRecording(boolean recordingFlag)
     {
     	TakingDictationActivity instance = TakingDictationActivity.getInstance();
@@ -123,6 +155,10 @@ public class TakingDictationActivity extends Activity
     	
     	instance.setButtonStates();
     }
+    
+    /**
+     * Refresh, making newly recorded files visible to the user.
+     */
     public static void refresh()
     {
     	TakingDictationActivity instance = TakingDictationActivity.getInstance();

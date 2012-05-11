@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +22,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+/**
+ * Views the files in this application's storage dir.
+ * 
+ * @author wavenger
+ *
+ */
 public class FileViewer extends ScrollView 
 {
 	private Context context;
@@ -149,7 +154,6 @@ public class FileViewer extends ScrollView
 				@Override
 				public void run() 
 				{
-					boolean running = true;
 					sendColorMessage(Color.GREEN);
 					try {
 						Thread.sleep(500);
